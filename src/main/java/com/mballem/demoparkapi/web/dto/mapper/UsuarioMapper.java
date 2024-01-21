@@ -6,6 +6,9 @@ import com.mballem.demoparkapi.web.dto.UsuarioResponseDTO;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class UsuarioMapper {
     public static Usuario toUsuario(UsuarioCreateDTO dto) {
         return new ModelMapper().map(dto, Usuario.class);
@@ -25,4 +28,7 @@ public class UsuarioMapper {
         return modelMapper.map(usuario, UsuarioResponseDTO.class);
     }
 
+    public static List<UsuarioResponseDTO> toListDto(List<Usuario> usuarios) {
+        return usuarios.stream().map(usuario -> toDTO(usuario)).collect(Collectors.toList());
+    }
 }

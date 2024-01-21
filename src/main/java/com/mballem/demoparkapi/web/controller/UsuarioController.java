@@ -21,9 +21,9 @@ public class UsuarioController {
     private final UsuarioService usuarioService;
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> list() {
+    public ResponseEntity<List<UsuarioResponseDTO>> getAll() {
         List<Usuario> listUsuarios = usuarioService.buscarTodos();
-        return ResponseEntity.status(HttpStatus.OK).body(listUsuarios);
+        return ResponseEntity.status(HttpStatus.OK).body(UsuarioMapper.toListDto(listUsuarios));
     }
 
     @PostMapping
