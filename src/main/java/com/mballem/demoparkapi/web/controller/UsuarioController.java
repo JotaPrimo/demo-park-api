@@ -2,6 +2,10 @@ package com.mballem.demoparkapi.web.controller;
 
 import com.mballem.demoparkapi.entity.Usuario;
 import com.mballem.demoparkapi.service.UsuarioService;
+import com.mballem.demoparkapi.web.dto.UsuarioCreateDTO;
+import com.mballem.demoparkapi.web.dto.UsuarioResponseDTO;
+import com.mballem.demoparkapi.web.dto.UsuarioSenhaDTO;
+import com.mballem.demoparkapi.web.dto.mapper.UsuarioMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,26 +21,26 @@ public class UsuarioController {
     private final UsuarioService usuarioService;
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> list() {
+    public ResponseEntity<List<UsuarioResponseDTO>> getAll() {
         List<Usuario> listUsuarios = usuarioService.buscarTodos();
-        return ResponseEntity.status(HttpStatus.OK).body(listUsuarios);
+        return ResponseEntity.status(HttpStatus.OK).body(UsuarioMapper.toListDto(listUsuarios));
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> create(@RequestBody Usuario usuario) {
-        Usuario usuarioSalvo = usuarioService.create(usuario);
-        return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
+    public ResponseEntity<UsuarioResponseDTO> create(@RequestBody UsuarioCreateDTO usuarioCreateDTO) {
+        Usuario user = usuarioService.create(UsuarioMapper.toUsuario(usuarioCreateDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(UsuarioMapper.toDTO(user));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> getById(@PathVariable Long id) {
+    public ResponseEntity<UsuarioResponseDTO> getById(@PathVariable Long id) {
         Usuario usuario = usuarioService.buscarPorId(id);
-        return ResponseEntity.ok(usuario);
+        return ResponseEntity.ok(UsuarioMapper.toDTO(usuario));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Usuario> updatePassword(@PathVariable Long id, @RequestBody Usuario usuario) {
-        Usuario userUpdate = usuarioService.editarSenha(id, usuario.getPassword());
-        return ResponseEntity.ok(userUpdate);
+    public ResponseEntity<Void> updatePassword(@PathVariable Long id, @RequestBody UsuarioSenhaDTO dto) {
+        Usuario userUpdate = usuarioService.editarSenha(id, dto.getSenhaAtual(), dto.getNovaSenha(), dto.getConfirmaSenha());
+        return ResponseEntity.noContent().build();
     }
 }

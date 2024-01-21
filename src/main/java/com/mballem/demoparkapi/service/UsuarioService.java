@@ -3,8 +3,6 @@ package com.mballem.demoparkapi.service;
 import com.mballem.demoparkapi.entity.Usuario;
 import com.mballem.demoparkapi.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,16 +32,18 @@ public class UsuarioService {
     }
 
     @Transactional(readOnly = true)
-    public Usuario editarSenha(Long id, String password) {
-        // consulta para pegar o registro
-        Usuario usuario = buscarPorId(id);
-        // atualiza senha
-        usuario.setPassword(password);
-        // não usei o update pq no metodo buscarPorId foi usado o findById do JPARepository
-        // esse metodo coloca o objeto usuario em estado persistente
-        // o hibernate o controla, por isso ao usar o set, o hibernate salva no banco
-        // poderia usar o merge
-        return usuario;
+    public Usuario editarSenha(Long id, String senhaAtual, String novaSenha, String confirmaSenha) {
+        if (!novaSenha.equals(confirmaSenha)) {
+            throw new RuntimeException("Nova senha não confere com a confirmação de senha");
+        }
+
+        Usuario user = buscarPorId(id);
+        if (!user.getPassword().equals(senhaAtual)) {
+            throw new RuntimeException("Sua senha não confere");
+        }
+
+        user.setPassword(novaSenha);
+        return user;
     }
 
 }
