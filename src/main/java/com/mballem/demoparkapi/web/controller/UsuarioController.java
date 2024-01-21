@@ -16,6 +16,12 @@ public class UsuarioController {
 
     private final UsuarioService usuarioService;
 
+    @GetMapping
+    public ResponseEntity<List<Usuario>> list() {
+        List<Usuario> listUsuarios = usuarioService.buscarTodos();
+        return ResponseEntity.status(HttpStatus.OK).body(listUsuarios);
+    }
+
     @PostMapping
     public ResponseEntity<Usuario> create(@RequestBody Usuario usuario) {
         Usuario usuarioSalvo = usuarioService.create(usuario);
@@ -33,5 +39,4 @@ public class UsuarioController {
         Usuario userUpdate = usuarioService.editarSenha(id, usuario.getPassword());
         return ResponseEntity.ok(userUpdate);
     }
-
 }
