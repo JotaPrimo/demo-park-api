@@ -5,10 +5,9 @@ import com.mballem.demoparkapi.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/usuarios")
@@ -22,4 +21,17 @@ public class UsuarioController {
         Usuario usuarioSalvo = usuarioService.create(usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Usuario> getById(@PathVariable Long id) {
+        Usuario usuario = usuarioService.buscarPorId(id);
+        return ResponseEntity.ok(usuario);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Usuario> updatePassword(@PathVariable Long id, @RequestBody Usuario usuario) {
+        Usuario userUpdate = usuarioService.editarSenha(id, usuario.getPassword());
+        return ResponseEntity.ok(userUpdate);
+    }
+
 }
