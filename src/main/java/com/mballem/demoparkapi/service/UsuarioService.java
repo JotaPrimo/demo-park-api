@@ -1,8 +1,11 @@
 package com.mballem.demoparkapi.service;
 
 import com.mballem.demoparkapi.entity.Usuario;
+import com.mballem.demoparkapi.exception.EntityNotFoundException;
+import com.mballem.demoparkapi.exception.UserNameUniqueViolationException;
 import com.mballem.demoparkapi.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,13 +24,18 @@ public class UsuarioService {
 
     @Transactional // usamos essa anotação para indicar que aqui ocorrem operaçõe no banco
     public Usuario create(Usuario usuario) {
-        return usuarioRepository.save(usuario);
+        try {
+            return usuarioRepository.save(usuario);
+        }catch (DataIntegrityViolationException exception) {
+            // relançando a exceção, UserNameUniqueViolationException foi customizada
+            throw new UserNameUniqueViolationException(String.format("Username {%s}já cadastrado", usuario.getUsername()));
+        }
     }
 
     @Transactional(readOnly = true)
     public Usuario buscarPorId(Long id) {
         return usuarioRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Usuário não encontrado")
+                () -> new EntityNotFoundException(String.format("Usuário de id #%s não encontrado", id))
         );
     }
 
