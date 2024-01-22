@@ -1,5 +1,6 @@
 package com.mballem.demoparkapi.web.exception;
 
+import com.mballem.demoparkapi.exception.EntityNotFoundException;
 import com.mballem.demoparkapi.exception.UserNameUniqueViolationException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -15,8 +16,18 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 public class ApiExceptionHandler {
 
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorMessage> entityNotFoundException(RuntimeException ex,
+                                                                       HttpServletRequest request) {
+        log.error("APi error = ", ex);
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.NOT_FOUND, ex.getMessage()));
+    }
+
     @ExceptionHandler(UserNameUniqueViolationException.class)
-    public ResponseEntity<ErrorMessage> methodArgumentNotValiException(RuntimeException ex,
+    public ResponseEntity<ErrorMessage> uniqueViolationException(RuntimeException ex,
                                                                        HttpServletRequest request) {
         log.error("APi error = ", ex);
         return ResponseEntity
@@ -35,6 +46,7 @@ public class ApiExceptionHandler {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new ErrorMessage(request, HttpStatus.UNPROCESSABLE_ENTITY, "Campo(s) inválidos", result));
     }
+
 
 
 }
