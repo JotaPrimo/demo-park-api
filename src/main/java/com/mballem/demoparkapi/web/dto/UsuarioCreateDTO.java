@@ -13,6 +13,6 @@ public class UsuarioCreateDTO {
     private String username;
 
     @NotBlank(message = "Senha é obrigatório")
-    @Size(min = 6, max = 6, message = "Deve ter 6 caracteres")
+    @Size(min = 6, max = 20, message = "Deve ter 6 caracteres")
     private String password;
 }

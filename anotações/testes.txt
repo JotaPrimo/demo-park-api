@@ -1,0 +1,12 @@
+O curso fará testes de ponta a ponta, esse ainda não conhecia vai ser bom aprender
+O teste de ponta a ponta consegue testar o fluxo da aplicação
+
+precisa do spring-boot-starter-webflux pra rodar testes
+
+Camanda de testes
+
+todos os metodos de testes devem ser publicos e de retorno void
+
+Anotação @Test
+nome de teste : MotivoDoTeste_EstaTestandoOQueEstaTestando_QualORetorno
+Deve ser o

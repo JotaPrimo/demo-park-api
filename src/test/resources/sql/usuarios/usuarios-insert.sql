@@ -1,0 +1,10 @@
+INSERT INTO usuarios (username, password, role) VALUES ('usuario1', 'senha1', 'ROLE_ADMIN');
+INSERT INTO usuarios (username, password, role) VALUES ('usuario2', 'senha2', 'ROLE_CLIENTE');
+INSERT INTO usuarios (username, password, role) VALUES ('usuario3', 'senha3', 'ROLE_CLIENTE');
+INSERT INTO usuarios (username, password, role) VALUES ('usuario4', 'senha4', 'ROLE_CLIENTE');
+INSERT INTO usuarios (username, password, role) VALUES ('usuario5', 'senha5', 'ROLE_CLIENTE');
+INSERT INTO usuarios (username, password, role) VALUES ('usuario6', 'senha6', 'ROLE_CLIENTE');
+INSERT INTO usuarios (username, password, role) VALUES ('usuario7', 'senha7', 'ROLE_CLIENTE');
+INSERT INTO usuarios (username, password, role) VALUES ('usuario8', 'senha8', 'ROLE_CLIENTE');
+INSERT INTO usuarios (username, password, role) VALUES ('usuario9', 'senha9', 'ROLE_CLIENTE');
+INSERT INTO usuarios (username, password, role) VALUES ('usuario10', 'senha10', 'ROLE_CLIENTE');

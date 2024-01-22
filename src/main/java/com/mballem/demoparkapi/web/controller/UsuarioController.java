@@ -25,6 +25,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UsuarioController {
 
+    public static final String URI_USUARIOS = "api/v1/usuarios";
+
     private final UsuarioService usuarioService;
 
     @GetMapping
