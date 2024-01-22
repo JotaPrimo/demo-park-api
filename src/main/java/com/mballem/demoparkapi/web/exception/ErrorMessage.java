@@ -1,5 +1,6 @@
 package com.mballem.demoparkapi.web.exception;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
 import lombok.ToString;
@@ -17,6 +18,7 @@ public class ErrorMessage {
     private  int status;
     private  String statusText;
     private  String message;
+    @JsonInclude(JsonInclude.Include.NON_NULL) //quando o objeto json for criado, remove erros se for null
     private Map<String, String> errors;
 
     public ErrorMessage() {

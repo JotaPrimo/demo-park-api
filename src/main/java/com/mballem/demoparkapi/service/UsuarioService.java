@@ -1,8 +1,10 @@
 package com.mballem.demoparkapi.service;
 
 import com.mballem.demoparkapi.entity.Usuario;
+import com.mballem.demoparkapi.exception.UserNameUniqueViolationException;
 import com.mballem.demoparkapi.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +23,12 @@ public class UsuarioService {
 
     @Transactional // usamos essa anotação para indicar que aqui ocorrem operaçõe no banco
     public Usuario create(Usuario usuario) {
-        return usuarioRepository.save(usuario);
+        try {
+            return usuarioRepository.save(usuario);
+        }catch (DataIntegrityViolationException exception) {
+            // relançando a exceção, UserNameUniqueViolationException foi customizada
+            throw new UserNameUniqueViolationException(String.format("Username {%s}já cadastrado", usuario.getUsername()));
+        }
     }
 
     @Transactional(readOnly = true)
