@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 public class UsuarioMapper {
     public static Usuario toUsuario(UsuarioCreateDTO dto) {
+
         return new ModelMapper().map(dto, Usuario.class);
     }
 
@@ -26,6 +27,8 @@ public class UsuarioMapper {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.addMappings(props);
         return modelMapper.map(usuario, UsuarioResponseDTO.class);
+
+
     }
 
     public static List<UsuarioResponseDTO> toListDto(List<Usuario> usuarios) {

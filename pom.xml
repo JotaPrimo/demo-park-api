@@ -73,6 +73,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>demo-park-api</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

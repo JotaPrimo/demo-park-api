@@ -32,7 +32,8 @@ public class UsuarioController {
     @GetMapping
     public ResponseEntity<List<UsuarioResponseDTO>> getAll() {
         List<Usuario> listUsuarios = usuarioService.buscarTodos();
-        return ResponseEntity.status(HttpStatus.OK).body(UsuarioMapper.toListDto(listUsuarios));
+        List<UsuarioResponseDTO> responseDTOList = UsuarioMapper.toListDto(listUsuarios);
+        return ResponseEntity.status(HttpStatus.OK).body(responseDTOList);
     }
 
     @Operation(summary = "Criar um novo usuario", description = "Recurso para criar um novo usuario",
@@ -65,7 +66,13 @@ public class UsuarioController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<Void> updatePassword(@PathVariable Long id, @Valid @RequestBody UsuarioSenhaDTO dto) {
-        Usuario userUpdate = usuarioService.editarSenha(id, dto.getSenhaAtual(), dto.getNovaSenha(), dto.getConfirmaSenha());
+        usuarioService.editarSenha(id, dto.getSenhaAtual(), dto.getNovaSenha(), dto.getConfirmaSenha());
         return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+       usuarioService.delete(id);
+       return ResponseEntity.noContent().build();
     }
 }
